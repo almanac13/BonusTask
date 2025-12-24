@@ -1,19 +1,14 @@
 const express = require('express')
 const app = express()
 
-// Middleware to parse JSON body
 app.use(express.json())
 
 const PORT = 3000
 
-// ================= BASIC ROUTES =================
-
-// / -> Hello user
 app.get('/', (req, res) => {
 	res.send('Hello user')
 })
 
-// /json -> JSON response
 app.get('/json', (req, res) => {
 	res.json({
 		text: 'hi',
@@ -21,13 +16,11 @@ app.get('/json', (req, res) => {
 	})
 })
 
-// /profile/:username -> Dynamic route
 app.get('/profile/:username', (req, res) => {
 	const username = req.params.username
 	res.send(`Profile page of ${username}`)
 })
 
-// /letters?text=hello
 app.get('/letters', (req, res) => {
 	const text = req.query.text
 
@@ -43,27 +36,21 @@ app.get('/letters', (req, res) => {
 	})
 })
 
-// ================= USERS CRUD =================
-
-// Dummy users data
 let users = [
 	{ id: 1, name: 'Adam' },
 	{ id: 2, name: 'Sara' },
 ]
 
-// GET /users -> list users
 app.get('/users', (req, res) => {
 	res.json(users)
 })
 
-// POST /users -> create user
 app.post('/users', (req, res) => {
 	const newUser = req.body
 	users.push(newUser)
 	res.send('User created')
 })
 
-// PUT /users/:id -> update user
 app.put('/users/:id', (req, res) => {
 	const id = Number(req.params.id)
 	const updatedData = req.body
@@ -89,14 +76,11 @@ app.put('/users/:id', (req, res) => {
 	res.send(`User with ID ${id} updated`)
 })
 
-// DELETE /users/:id -> delete user
 app.delete('/users/:id', (req, res) => {
 	const id = Number(req.params.id)
 	users = users.filter(user => user.id !== id)
 	res.send(`User with ID ${id} deleted`)
 })
-
-// ================= SERVER =================
 
 app.listen(PORT, () => {
 	console.log(`Server running at http://localhost:${PORT}`)
